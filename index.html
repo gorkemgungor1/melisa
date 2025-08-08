@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Melisa 🩷</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Melisa, beni seviyor musun? 💌</h1>
+    <button onclick="showAnswer()">Evet mi? Hayır mı?</button>
+    <p class="answer" id="answer">😳</p>
+    <p class="surprise-message" id="surprise">🎉</p>
+  </div>
+
+  <!-- Kalp animasyonu -->
+  <div class="hearts">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+  </div>
+
+  <script>
+    function showAnswer() {
+      const answers = [
+        "Elbette, seni çok seviyorum! 💖",
+        "Belki... ama sen çok tatlısın 😍",
+        "Evet, deli gibi! 💘",
+        "Neden soruyorsun ki, cevabı kalbimde ❤️",
+        "Hayır demek ne mümkün? Tabii ki evet! 💓"
+      ];
+
+      const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+      const answerElem = document.getElementById('answer');
+      const surpriseElem = document.getElementById('surprise');
+
+      answerElem.innerText = randomAnswer;
+
+      if (randomAnswer.toLowerCase().includes("evet")) {
+        surpriseElem.innerText = "Biliyordummm! Ben de seni seviyorum! 💞";
+        surpriseElem.style.display = "block";
+      } else {
+        surpriseElem.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
