@@ -2,13 +2,19 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Melisa 🩷</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h1>Melisa, beni seviyor musun? 💌</h1>
-    <button onclick="showAnswer()">Evet mi? Hayır mı?</button>
+
+    <div class="buttons" id="buttons">
+      <button id="yesBtn" class="btn yes">Evet</button>
+      <button id="noBtn" class="btn no">Hayır</button>
+    </div>
+
     <p class="answer" id="answer">😳</p>
     <p class="surprise-message" id="surprise">🎉</p>
   </div>
@@ -25,28 +31,72 @@
   </div>
 
   <script>
-    function showAnswer() {
-      const answers = [
-        "Elbette, seni çok seviyorum! 💖",
-        "Belki... ama sen çok tatlısın 😍",
-        "Evet, deli gibi! 💘",
-        "Neden soruyorsun ki, cevabı kalbimde ❤️",
-        "Hayır demek ne mümkün? Tabii ki evet! 💓"
-      ];
+    const answers = [
+      "Seni çok seviyorum! 💖"
+    ];
 
-      const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
-      const answerElem = document.getElementById('answer');
-      const surpriseElem = document.getElementById('surprise');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn  = document.getElementById('noBtn');
+    const buttonsWrap = document.getElementById('buttons');
+    const answerElem = document.getElementById('answer');
+    const surpriseElem = document.getElementById('surprise');
 
-      answerElem.innerText = randomAnswer;
+    let yesScale = 1.0;
 
-      if (randomAnswer.toLowerCase().includes("evet")) {
-        surpriseElem.innerText = "Biliyordummm! Ben de seni seviyorum! 💞";
-        surpriseElem.style.display = "block";
-      } else {
-        surpriseElem.style.display = "none";
-      }
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    function moveNoButton() {
+      // buttonsWrap sınırları içinde "Hayır" butonunu kaçır
+      const wrapRect = buttonsWrap.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+
+      // Hareket alanını biraz tamponla
+      const maxLeft = wrapRect.width - noRect.width;
+      const maxTop  = wrapRect.height - noRect.height;
+
+      const newLeft = Math.max(0, Math.min(maxLeft, randomInt(0, maxLeft)));
+      const newTop  = Math.max(0, Math.min(maxTop,  randomInt(0, maxTop)));
+
+      noBtn.style.left = newLeft + "px";
+      noBtn.style.top  = newTop + "px";
+    }
+
+    function enlargeYesButton() {
+      yesScale = Math.min(1.9, yesScale + 0.12);
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    function showYesAnswer() {
+      const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+      answerElem.innerText = randomAnswer;
+      surpriseElem.innerText = "Biliyordummm! Ben de seni seviyorum! 💞";
+      surpriseElem.style.display = "block";
+    }
+
+    // Evet: normal çalışsın
+    yesBtn.addEventListener('click', showYesAnswer);
+
+    // Hayır: tıklanması zor olsun
+    noBtn.addEventListener('mouseenter', () => {
+      moveNoButton();
+      enlargeYesButton();
+    });
+
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      moveNoButton();
+      enlargeYesButton();
+    });
+
+    // İlk yerleşim: butonları ortada başlat, Hayır absolute olduğu için konum verelim
+    window.addEventListener('load', () => {
+      const wrapRect = buttonsWrap.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+      noBtn.style.left = (wrapRect.width/2 + 70) + "px"; // sağ tarafa
+      noBtn.style.top  = "0px";
+    });
   </script>
 </body>
 </html>

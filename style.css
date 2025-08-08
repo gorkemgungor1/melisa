@@ -31,7 +31,7 @@ h1 {
   margin: 24px auto 8px;
   width: 100%;
   max-width: 420px;
-  height: 80px; /* HayÄ±r'Ä±n kaÃ§masÄ± iÃ§in alan */
+  height: 80px; /* Hayır'ın kaçması için alan */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +57,7 @@ h1 {
 .btn.yes:hover { transform: scale(1.05); }
 
 .btn.no {
-  position: absolute; /* KaÃ§mak iÃ§in */
+  position: absolute; /* Kaçmak için */
   background: #fff;
   color: #e91e63;
   border: 2px solid #e91e63;
